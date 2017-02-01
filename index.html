@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Javascript today</title>
+<link rel="stylesheet" href="reveal.js/css/reveal.css">
+<link rel="stylesheet" href="reveal.js/css/theme/black.css" id="theme">
+<link rel="stylesheet" href="reveal.js/lib/css/zenburn.css">
+<link rel="stylesheet" href="css/font-awesome.min.css">
+<link rel="stylesheet" href="css/custom.css">
+<!-- Printing and PDF exports -->
+<script>
+var link  = document.createElement( 'link' );
+link.rel  = 'stylesheet';
+link.type = 'text/css';
+link.href = window.location.search.match( /print-pdf/gi ) ? 'reveal.js/css/print/pdf.css' : 'reveal.js/css/print/paper.css';
+document.getElementsByTagName( 'head' )[0].appendChild( link );
+</script>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+  <section>
+    <section>
+      <h2 class="top-2">Javascript today</h2>
+      <p class="me">Maxence POUTORD</p>
+      <p class="me-link">
+        <a href="https://twitter.com/_maxpou"><i class="fa fa-twitter"></i> @_maxpou</a> |
+        <a href="http://www.maxpou.fr/"><i class="fa fa-globe"></i> maxpou.fr</a> |
+        <a href="mailto:hello@maxpou.fr"><i class="fa fa-envelope-o"></i> hello@maxpou.fr</a>
+      </p>
+    </section>
+  </section>
+  <!--part 1: ES6-->
+  <section>
+    <section>
+      <h2>ECMAScript 2015 (ES6)</h2>
+      <img src="img/es2015.jpg" style="border: none;">
+    </section>
+    <section>
+      <h2>var, let and const</h2>
+      <div class="fragment">
+        <ul>
+          <li>const: the identifier cannot be reassigned</li>
+          <li>let: the identifier cannot be redeclare</li>
+          <li>var: as usual...</li>
+        </ul>
+      </div>
+      <div class="fragment">
+      <pre><code class="javascript" data-trim>
+// const
+const url = "www.hostelworld.com"
+url = "http://www.hostelworld.com" // Uncaught TypeError: Assignment to constant variable
+const url = "www.hostelworld.com"  // Identifier 'url' has already been declared
+// let
+let url = "www.hostelworld.com"
+url = "http://www.hostelworld.com/"     // ok
+let url = "https://www.hostelworld.com" // Uncaught SyntaxError: Identifier 'url' has already been declared
+// var
+var url = "www.hostelworld.com"
+url = "http://www.hostelworld.com/"     // ok
+var url = "https://www.hostelworld.com" // ok
+      </code></pre>
+      </div>
+    </section>
+    <section>
+      <h2>Arrow functions</h2>
+      <p class="fragment" data-fragment-index="0">ES5:</p>
+      <pre class="fragment" data-fragment-index="0"><code class="javascript" data-trim>
+var fruit = ["apple", "banana", "kiwi"]
+var fruitUpperCase = fruit.map(function (f) {
+  return f.toUpperCase()
+})
+      </code></pre>
+      <p class="fragment" data-fragment-index="1">ES6:</p>
+      <pre><code class="javascript fragment" data-fragment-index="1" data-trim>
+const fruit = ["apple", "banana", "kiwi"]
+const fruitUpperCase = fruit.map(f => { 
+  return f.toUpperCase() 
+})
+      </code><code class="javascript fragment" data-fragment-index="2" data-trim>
+// or better:
+const fruitUpperCase = fruit.map(f => f.toUpperCase())
+      </code></pre>
+    </section>
+    <section>
+      <h2>Promises</h2>
+      <img src="img/promises.png" alt="promise">
+    </section>
+    <section>
+      <pre><code class="javascript fragment" data-trim>
+// JS is synchronous
+setTimeout(() => console.log('a'), 500)
+setTimeout(() => console.log('b'), 50)
+setTimeout(() => console.log('c'), 23)
+setTimeout(() => console.log('d'), 600)
+setTimeout(() => console.log('e'), 10)
+      </code><code class="javascript fragment" data-trim>
+function sleep (ms) {
+  return new Promise(r => setTimeout(r, ms))
+}
+      </code><code class="javascript fragment" data-trim>
+// asynchronous calls
+sleep(2500)
+  .then(() => {
+    console.log('a')
+  })
+  .then(sleep(50))
+  .then(() => {
+    console.log('b')
+  })
+  .then(sleep(1000))
+  .then(() => {
+    console.log('c')
+  })
+      </code></pre>
+    </section>
+    <section>
+      <h2>Template</h2>
+      <pre><code class="javascript" data-trim>
+const hostel = { name: "Happy hostel", price: 12.5, stars: 4.5 }
+
+// es5
+var html = "<h1>" + hostel.name + "</h1>"
+html    += "<span class='price'>" + hostel.price + "&euro;</span>"
+html    += "<span class='stars'>" + hostel.stars + "</span>"
+
+// es6
+const html = `
+  <h1>${hostel.name}</h1>
+  <span class="price">${hostel.price}&euro;</span>
+  <span class="stars">${hostel.stars}</span>
+`
+      </code></pre>
+    </section>
+    <section>
+      <h2>See also:</h2>
+      <ul>
+        <li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_operator">Spread syntax</a>
+<pre><code class="javascript" data-trim>
+const params = [ "hello", true, 7 ]
+const other = [ 1, 2, ...params ] // [ 1, 2, "hello", true, 7 ]
+</code></pre>
+        </li>
+        <li><a href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Instructions/import">Import</a> / <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/export">export</a> (need transpiler)</li>
+        <li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/class">Class</a></li>
+      </ul>
+    </section>
+  </section>
+  <!--part 2: FP-->
+  <section>
+    <section>
+      <h2>The rise of the functionnal programming</h2>
+      <img src="img/functionnal-homer.png" style="border: none;">
+    </section>
+    <section>
+      <h2>In a nutshell</h2>
+      <ul>
+        <li>It's a programming paradigm (such as OOP)</li>
+        <li>It's not incompatible with OOP</li>
+        <li>Use a declarative approach (rather than imperative)</li>
+        <li>Brings concepts to produce better softwares</li>
+      </ul>
+    </section>
+    <section>
+      <h2>Imperative way</h2>
+      <pre><code class="javascript" data-trim>
+function printUsers (users) {
+  for (var i = 0; i < user.length; i++) {
+    users[i] = users[i].firstname + " " + users[i].firstname
+  }
+  return users
+}
+      </code></pre>
+      <p>This function have 2 differents behaviors</p>
+      <ul>
+        <li>Browse the table</li>
+        <li>Transform data</li>
+      </ul>
+      <h2>Declarative way</h2>
+      <pre><code class="javascript" data-trim>
+function printUser (users) {
+  return users.map(u => u.firstname + " " + u.firstname)
+}
+      </code></pre>
+    </section>
+    <section>
+      <h2>Common Functional Functions: Map, Filter &amp; Reduce</h2>
+    </section>
+    <section>
+      <h2>Cheat sheet</h2>
+      <div style="margin-left: 26%;">
+        <blockquote class="twitter-tweet" data-lang="fr"><p lang="en" dir="ltr">Map/filter/reduce in a tweet:<br><br>map([🌽, 🐮, 🐔], cook)<br>=&gt; [🍿, 🍔, 🍳]<br><br>filter([🍿, 🍔, 🍳], isVegetarian)<br>=&gt;  [🍿, 🍳]<br><br>reduce([🍿, 🍳], eat)<br>=&gt; 💩</p>&mdash; Steven Luscher (@steveluscher) <a href="https://twitter.com/steveluscher/status/741089564329054208">10 juin 2016</a></blockquote>
+        <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+      </div>
+    </section>
+  </section>
+  <!--part 3: New Frameworks-->
+  <section>
+    <section>
+      <h2>Frameworks</h2>
+      <img src="img/frameworks-lib.png" style="border: none;">
+    </section>
+    <section>
+      <h2>Why moving away from jQuery?</h2>
+      <ul>
+        <li>Templating</li>
+        <li>Data-binding</li>
+        <li>Clean, modular, reusable architecture (avoid Spaghetti code)</li>
+      </ul>
+    </section>
+    <section>
+      <h2>Components everywhere</h2>
+      <pre><code class="html" contenteditable data-trim>
+<div id="app">
+
+  <ul>
+    <fruit-item
+      v-for="fruit in fruits"
+      v-bind:fruit="fruit"
+    ></fruit-item>
+  </ul>
+
+  <change-fruit-button
+    v-on:change="changedata($event)"
+  ></change-fruit-button>
+
+</div>
+      </code></pre>
+      <pre><code class="javascript" data-trim>
+Vue.component('fruit-item', {
+  props: ['fruit'],
+  template: `<li>{{ fruit }}</li>`
+})
+
+Vue.component('change-fruit-button', {
+  template: `<button v-on:click="changeFruit">Change!</button>`,
+  methods: {
+    changeFruit: function () {
+      this.$emit('change', ['pear', 'peach', 'cranberry'])
+    }
+  }
+})
+
+new Vue({
+  el: '#app',
+  data: {
+    fruits: ['banana', 'apple', 'kiwi']
+  },
+  methods: {
+    changedata: function (newdata) {
+      this.fruits = newdata
+    }
+  }
+})
+      </code></pre>
+    </section>
+    <section>
+      <h2>Demo time</h2>
+      <ul>
+        <li>
+          <a href="https://github.com/maxpou/find-a-room-vuejs2"><i class="fa fa-globe" aria-hidden="true"></i> Application: maxpou.github.io/find-a-room-vuejs2</a>
+        </li>
+        <li>
+          <a href="https://github.com/maxpou/find-a-room-vuejs2"><i class="fa fa-github" aria-hidden="true"></i> Sources: github.com/maxpou/find-a-room-vuejs2</a>
+        </li>
+      </ul>
+    </section>
+    <section>
+      <h2>Learning curve</h2>
+    </section>
+    <section>
+      <img src="img/margaret-hamilton.png" alt="margaret hamilton Apollo project">
+    </section>
+  </section>
+  <!--part 4: Tooling-->
+  <section>
+    <section>
+      <h2>Tooling</h2>
+      <img src="img/icecream-sandwiches.gif" style="border: none;">
+    </section>
+    <section>
+      <h2>NPM</h2>
+      <p>Package Manager (surch as Composer)</p>
+      <pre><code class="javascript" data-trim>
+{
+  "name": "js-today",
+  "version": "1.0.0",
+  "author": "Maxence POUTORD <github@maxpou.fr>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/maxpou-slides/js-today"
+  },
+  "main": "app.js",
+  "scripts": {
+    "start": "node_modules/http-server/bin/http-server",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint ."
+  },
+  "devDependencies": {
+    "eslint": "^3.12.2",
+    "http-server": "^0.9.0"
+  }
+}
+      </code></pre>
+    </section>
+    <section>
+      <h2>Babel</h2>
+      <p>Transform es2015+ to ES5</p>
+      <pre><code class="javascript" data-trim>
+// beatiful es6
+[1,2,3,4,5]
+  .filter(n => n % 2 === 0)
+  .map(n => n + 1)
+
+// ugly es5
+[1, 2, 3, 4, 5].filter(function (n) {
+  return n % 2 === 0;
+}).map(function (n) {
+  return n + 1;
+});
+      </code></pre>
+    </section>
+    <section>
+      <h2>ESLint</h2>
+      <p>Linter for Javascript</p>
+      <pre><code class="bash" data-trim>
+/Users/maxence.poutord/sites/lab/whatever.js
+  8:6  error  'test' is assigned a value but never used  no-unused-vars
+  10:5   error  Unexpected console statement             no-console
+  16:26  error  Missing semicolon                        semi
+
+✖ 3 problem (3 error, 0 warnings)
+      </code></pre>
+    </section>
+  </section>
+  <section>
+    <h2>Conclusion: Should I continue to use jQuery?</h2>
+    <img src="img/tech-debt.jpg" class="fragment">
+  </section>
+</div>
+</div>
+<script src="reveal.js/lib/js/head.min.js"></script>
+<script src="reveal.js/js/reveal.js"></script>
+<script>
+// Full list of configuration options available at:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+  controls: true,
+  progress: true,
+  slideNumber: true,
+  history: true,
+  center: true,
+  width: 1000,
+  height: 700,
+
+  transition: 'convex', // none/fade/slide/convex/concave/zoom
+
+// Optional reveal.js plugins
+dependencies: [
+  { src: 'reveal.js/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+  { src: 'reveal.js/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+  { src: 'reveal.js/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+  { src: 'reveal.js/plugin/highlight/highlight.js', async: true, condition: function() { return !!document.querySelector( 'pre code' ); }, callback: function() { hljs.initHighlightingOnLoad(); } },
+  { src: 'reveal.js/plugin/zoom-js/zoom.js', async: true },
+  { src: 'reveal.js/plugin/notes/notes.js', async: true }
+]
+});
+
+</script>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-67868977-1', 'auto');
+  ga('send', 'pageview');
+</script>
+</body>
+</html>

@@ -1,0 +1,77 @@
+.reveal h1, .reveal h2, .reveal h3, .reveal h4, .reveal h5, .reveal h6 {
+  color: #91C700;
+}
+
+.reveal pre code {
+  max-height: 450px;
+}
+
+.reveal pre {
+  width: 100%;
+}
+
+.reveal pre.sticky {
+  margin: 0px auto;
+}
+
+body {
+  background-color: #444;
+}
+
+.list-unstyled {
+  padding-left: 0;
+  list-style: none;
+}
+
+.center {
+  text-align: center
+}
+
+.reveal section img {
+  box-shadow: none;
+  background: none;
+}
+
+/* fix left arrow bug */
+.reveal .controls .navigate-left {
+  left: 0px;
+}
+
+p.me {
+  margin-bottom: 0px;
+}
+
+p.me-link {
+  font-size: 22px;
+  margin: 0px;
+}
+
+.reveal blockquote {
+  width: 100%;
+}
+
+table.table > tbody > tr > td {
+  line-height: 30px;
+}
+
+.reveal .slides section .fragment.push {
+  display: none;
+  opacity: 0;
+}
+
+.reveal .slides section .fragment.push.current-fragment {
+  display: inline;
+  opacity: 1;
+}
+
+h2.top-1 {
+  margin-top: 10%;
+}
+
+h2.top-2 {
+  margin-top: 15%;
+}
+
+h2.top-3  {
+  margin-top: 20%;
+}
