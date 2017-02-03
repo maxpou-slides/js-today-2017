@@ -22,7 +22,7 @@ document.getElementsByTagName( 'head' )[0].appendChild( link );
 <div class="slides">
   <section>
     <section>
-      <h2 class="top-2">Javascript today</h2>
+      <h2>Javascript today</h2>
       <p class="me">Maxence POUTORD</p>
       <p class="me-link">
         <a href="https://twitter.com/_maxpou"><i class="fa fa-twitter"></i> @_maxpou</a> |
@@ -117,14 +117,14 @@ sleep(2500)
     </section>
     <section>
       <h2>Template</h2>
-      <pre><code class="javascript" data-trim>
+      <pre><code class="javascript fragment" data-trim>
 const hostel = { name: "Happy hostel", price: 12.5, stars: 4.5 }
 
 // es5
 var html = "<h1>" + hostel.name + "</h1>"
 html    += "<span class='price'>" + hostel.price + "&euro;</span>"
 html    += "<span class='stars'>" + hostel.stars + "</span>"
-
+      </code><code class="javascript fragment" data-trim>
 // es6
 const html = `
   <h1>${hostel.name}</h1>
@@ -136,7 +136,7 @@ const html = `
     <section>
       <h2>See also:</h2>
       <ul>
-        <li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_operator">Spread syntax</a>
+        <li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_operator">Spread syntax</a>, <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/rest_parameters">Rest parameters</a>
 <pre><code class="javascript" data-trim>
 const params = [ "hello", true, 7 ]
 const other = [ 1, 2, ...params ] // [ 1, 2, "hello", true, 7 ]
@@ -163,13 +163,80 @@ const other = [ 1, 2, ...params ] // [ 1, 2, "hello", true, 7 ]
       </ul>
     </section>
     <section>
-      <h2>Imperative way</h2>
+      <h2>Purity</h2>
       <pre><code class="javascript" data-trim>
-function printUsers (users) {
-  for (var i = 0; i < user.length; i++) {
-    users[i] = users[i].firstname + " " + users[i].firstname
+var number = 2
+function incrementBy (increment) {
+  launchNuclearMissile()
+  return number + increment
+}
+      </code></pre>
+      <ul>
+        <li>This function produce <b>side effects</b></li>
+        <li>Result depends on the number of execution (not idempotent)</li>
+      </ul>
+      <pre><code class="javascript" data-trim>
+function increment (number, increment) {
+  return number + increment
+}
+      </code></pre>
+    </section>
+    <section>
+      <h2>Immutability</h2>
+      <pre><code class="javascript" data-trim>
+var properties = [{/* */}]
+for (var i = 0; i < properties.length; i++) {
+  properties[i].image = properties[i].image.replace(/^http:\/\//i, 'https://')
+  properties[i].price = properties[i].price + "€"
+}
+      </code></pre>
+      <ul>
+        <li>Break Single Responsability Princile (S of SOLID)</li>
+        <li>After the loop properties state change. Doesn't represent properties anymore</li>
+        <li>Non thread-safe code</li>
+      </ul>
+      <pre><code class="javascript" data-trim>
+const properties = [{/* */}]
+const formattedProperties = properties.map(property => {
+  property.image = property.image.replace(/^http:\/\//i, 'https://')
+  property.price = property.price + "€"
+  return property
+})
+      </code></pre>
+    </section>
+    <section>
+      <h2>Warning: `const` isn't enought</h2>
+      <pre><code class="javascript" data-trim>
+const property = {
+  id: 23,
+  name: 'happy hostel'
+}
+
+property.name = 'highjack'
+      </code></pre>
+      <p>With const, only <b>reference</b> is read only.<br> You can still update the <b>value</b>.</p>
+    </section>
+    <section>
+      <h2>High order function</h2>
+      <blockquote>
+        A higher-order function is a function that does at least one of the following:
+        <ul>
+          <li>takes one or more functions as arguments,</li>
+          <li>returns a function as its result.</li>
+        </ul>
+        <em>Source: <a href="https://en.wikipedia.org/wiki/Higher-order_function">Wikipedia</a></em>
+      </blockquote>
+      <p>Benefits: a better segregation in the code</p>
+    </section>
+    <section>
+      <h2>Array.map (Imperative vs. Declarative)</h2>
+      <pre><code class="javascript" data-trim>
+// Imperative
+function printProperties (properties) {
+  for (var i = 0; i < properties.length; i++) {
+    properties[i] = properties[i].name + ", " + properties[i].city
   }
-  return users
+  return properties
 }
       </code></pre>
       <p>This function have 2 differents behaviors</p>
@@ -177,15 +244,41 @@ function printUsers (users) {
         <li>Browse the table</li>
         <li>Transform data</li>
       </ul>
-      <h2>Declarative way</h2>
       <pre><code class="javascript" data-trim>
-function printUser (users) {
-  return users.map(u => u.firstname + " " + u.firstname)
+// Declarative way
+function printProperties (properties) {
+  return properties.map(p => p.name + ", " + p.city)
 }
       </code></pre>
     </section>
     <section>
-      <h2>Common Functional Functions: Map, Filter &amp; Reduce</h2>
+      <h2>Array.filter</h2>
+      <pre><code class="javascript fragment" data-trim>
+var highRatedProperties = []
+for (property of properties) {
+  if (property.rate >= 70) {
+    highRatedProperties.push(property)
+  }
+}
+      </code><br><code class="javascript fragment" data-trim>
+const highRatedProperties = properties.filter(property => property.rate >= 70)
+      </code></pre>
+    </section>
+    <section>
+      <h2>Array.reduce</h2>
+      <pre><code class="javascript" data-trim>
+const sumRate = properties.reduce((accumulator, current) => accumulator + current.rate, 0);
+const averageRate = sumRate / properties.length;
+      </code></pre>
+    </section>
+    <section>
+      <h2>Chaining!</h2>
+      <pre><code class="javascript" data-trim>
+const formatedHighRatedProperties = properties
+  .filter(p => p.rate >= 70 || p.isNew)
+  .map(p => p.name + ", " + p.city)
+  .sort((a, b) => b.rate - a.rate)
+      </code></pre>
     </section>
     <section>
       <h2>Cheat sheet</h2>
@@ -206,8 +299,13 @@ function printUser (users) {
       <ul>
         <li>Templating</li>
         <li>Data-binding</li>
+        <li>Virtual dom</li>
         <li>Clean, modular, reusable architecture (avoid Spaghetti code)</li>
       </ul>
+    </section>
+    <section>
+      <h2>State of the <strike>art</strike> industry</h2>
+      <img src="img/farwest.jpg" alt="farwest" style="border: none;">
     </section>
     <section>
       <h2>Components everywhere</h2>
