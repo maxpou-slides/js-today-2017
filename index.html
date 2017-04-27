@@ -31,6 +31,10 @@ document.getElementsByTagName( 'head' )[0].appendChild( link );
       </p>
     </section>
   </section>
+  <section>
+    <h2>Evolution of JS</h2>
+    <img src="img/evolution-js.png" style="padding: 10px; background: white;">
+  </section>
   <!--part 1: ES6-->
   <section>
     <section>
@@ -73,46 +77,44 @@ var fruitUpperCase = fruit.map(function (f) {
 })
       </code></pre>
       <p class="fragment" data-fragment-index="1">ES6:</p>
-      <pre><code class="javascript fragment" data-fragment-index="1" data-trim>
+      <pre class="fragment"  data-fragment-index="1"><code class="javascript" data-trim>
 const fruit = ["apple", "banana", "kiwi"]
-const fruitUpperCase = fruit.map(f => { 
-  return f.toUpperCase() 
+const fruitUpperCase = fruit.map(f => {
+  return f.toUpperCase()
 })
       </code><code class="javascript fragment" data-fragment-index="2" data-trim>
 // or better:
 const fruitUpperCase = fruit.map(f => f.toUpperCase())
       </code></pre>
+      <p class="fragment">Bye bye "<code class="javascript" data-trim>var self = this</code>"</p>
     </section>
     <section>
       <h2>Promises</h2>
       <img src="img/promises.png" alt="promise">
     </section>
     <section>
-      <pre><code class="javascript fragment" data-trim>
-// JS is synchronous
-setTimeout(() => console.log('a'), 500)
-setTimeout(() => console.log('b'), 50)
-setTimeout(() => console.log('c'), 23)
-setTimeout(() => console.log('d'), 600)
-setTimeout(() => console.log('e'), 10)
-      </code><code class="javascript fragment" data-trim>
-function sleep (ms) {
-  return new Promise(r => setTimeout(r, ms))
-}
-      </code><code class="javascript fragment" data-trim>
-// asynchronous calls
-sleep(2500)
-  .then(() => {
-    console.log('a')
+      <h2>Because JS is Asynchronous</h2>
+      <pre><code class="javascript" data-trim>
+  function findBurgers (url, callback) {
+    const fakeDelay = Math.random() * 1500
+    const fakeResponse = ['🍔', '🌮', '🌭']
+    setTimeout(() => {
+      callback(fakeResponse)
+    }, fakeDelay)
+  }
+
+  const menu = {}
+  menu.drink = '🍹'
+  menu.side = '🍟'
+  </code><code class="javascript fragment" data-trim>
+  findBurgers('http://burgers.maxpou.fr', (data) => {
+    menu.burger = data[0]
   })
-  .then(sleep(50))
-  .then(() => {
-    console.log('b')
-  })
-  .then(sleep(1000))
-  .then(() => {
-    console.log('c')
-  })
+  </code><code class="javascript fragment" data-trim>
+  console.log(menu) // {drink: "🍹", side: "🍟"}
+  </code><code class="javascript fragment" data-trim>
+  // ... after ...
+  console.log(menu) // {drink: "🍹", side: "🍟", burger: "🍔"}
       </code></pre>
     </section>
     <section>
@@ -144,6 +146,15 @@ const other = [ 1, 2, ...params ] // [ 1, 2, "hello", true, 7 ]
         </li>
         <li><a href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Instructions/import">Import</a> / <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/export">export</a> (need transpiler)</li>
         <li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/class">Class</a></li>
+        <li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for...of">For...of</a></li>
+      </ul>
+    </section>
+    <section>
+      <h2>Browsers Support</h2>
+      <img src="img/support.png" style="border: none;width: 60%;">
+      <ul>
+        <li><a href="https://kangax.github.io/compat-table/es6/">kangax.github.io/compat-table/es6/</a></li>
+        <li><a href="http://caniuse.com/">caniuse.com</a></li>
       </ul>
     </section>
   </section>
@@ -205,18 +216,6 @@ const formattedProperties = properties.map(property => {
       </code></pre>
     </section>
     <section>
-      <h2>Warning: `const` isn't enought</h2>
-      <pre><code class="javascript" data-trim>
-const property = {
-  id: 23,
-  name: 'happy hostel'
-}
-
-property.name = 'highjack'
-      </code></pre>
-      <p>With const, only <b>reference</b> is read only.<br> You can still update the <b>value</b>.</p>
-    </section>
-    <section>
       <h2>High order function</h2>
       <blockquote>
         A higher-order function is a function that does at least one of the following:
@@ -224,11 +223,12 @@ property.name = 'highjack'
           <li>takes one or more functions as arguments,</li>
           <li>returns a function as its result.</li>
         </ul>
-        <em>Source: <a href="https://en.wikipedia.org/wiki/Higher-order_function">Wikipedia</a></em>
       </blockquote>
+      <p><em style="float: right;">Source: <a href="https://en.wikipedia.org/wiki/Higher-order_function">Wikipedia</a></em></p>
+      <br>
       <p>Benefits: a better segregation in the code</p>
     </section>
-    <section>
+    <!-- <section>
       <h2>Array.map (Imperative vs. Declarative)</h2>
       <pre><code class="javascript" data-trim>
 // Imperative
@@ -267,19 +267,10 @@ const highRatedProperties = properties.filter(property => property.rate >= 70)
     <section>
       <h2>Array.reduce</h2>
       <pre><code class="javascript" data-trim>
-const sumRate = properties.reduce((accumulator, current) => accumulator + current.rate, 0);
-const averageRate = sumRate / properties.length;
+const sumRate = properties.reduce((accumulator, current) => accumulator + current.rate, 0)
+const averageRate = sumRate / properties.length
       </code></pre>
-    </section>
-    <section>
-      <h2>Chaining!</h2>
-      <pre><code class="javascript" data-trim>
-const formatedHighRatedProperties = properties
-  .filter(p => p.rate >= 70 || p.isNew)
-  .map(p => p.name + ", " + p.city)
-  .sort((a, b) => b.rate - a.rate)
-      </code></pre>
-    </section>
+    </section> -->
     <section>
       <h2>Cheat sheet</h2>
       <div style="margin-left: 26%;">
@@ -287,12 +278,21 @@ const formatedHighRatedProperties = properties
         <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
       </div>
     </section>
+    <section>
+      <h2>Embrace the power of Array</h2>
+      <pre><code class="javascript" data-trim>
+const formatedHighRatedProperties = properties
+  .filter(p => p.rate >= 70 || p.isNew)
+  .map(p => p.name + ", " + p.city)
+  .sort((a, b) => b.rate - a.rate)
+      </code></pre>
+    </section>
   </section>
   <!--part 3: New Frameworks-->
   <section>
     <section>
-      <h2>Frameworks</h2>
-      <img src="img/frameworks-lib.png" style="border: none;">
+      <h2 >Frameworks</h2>
+      <img src="img/frameworks-lib.png" style="border: none;width: 40%;">
     </section>
     <section>
       <h2>Why moving away from jQuery?</h2>
@@ -304,54 +304,8 @@ const formatedHighRatedProperties = properties
       </ul>
     </section>
     <section>
-      <h2>State of the <strike>art</strike> industry</h2>
-      <img src="img/farwest.jpg" alt="farwest" style="border: none;">
-    </section>
-    <section>
-      <h2>Components everywhere</h2>
-      <pre><code class="html" contenteditable data-trim>
-<div id="app">
-
-  <ul>
-    <fruit-item
-      v-for="fruit in fruits"
-      v-bind:fruit="fruit"
-    ></fruit-item>
-  </ul>
-
-  <change-fruit-button
-    v-on:change="changedata($event)"
-  ></change-fruit-button>
-
-</div>
-      </code></pre>
-      <pre><code class="javascript" data-trim>
-Vue.component('fruit-item', {
-  props: ['fruit'],
-  template: `<li>{{ fruit }}</li>`
-})
-
-Vue.component('change-fruit-button', {
-  template: `<button v-on:click="changeFruit">Change!</button>`,
-  methods: {
-    changeFruit: function () {
-      this.$emit('change', ['pear', 'peach', 'cranberry'])
-    }
-  }
-})
-
-new Vue({
-  el: '#app',
-  data: {
-    fruits: ['banana', 'apple', 'kiwi']
-  },
-  methods: {
-    changedata: function (newdata) {
-      this.fruits = newdata
-    }
-  }
-})
-      </code></pre>
+      <h2>Make your life easier</h2>
+      <img src="img/margaret-hamilton.png" alt="margaret hamilton Apollo project">
     </section>
     <section>
       <h2>Demo time</h2>
@@ -365,17 +319,32 @@ new Vue({
       </ul>
     </section>
     <section>
-      <h2>Learning curve</h2>
+      <h2>State of the <strike>art</strike> industry</h2>
+      <img src="img/farwest.jpg" alt="farwest" style="border: none;">
     </section>
     <section>
-      <img src="img/margaret-hamilton.png" alt="margaret hamilton Apollo project">
+      <h2>What about SEO?</h2>
+      <img src="img/csr.png" alt="farwest" class="fragment" style="border: none; width: 49%;">
+      <img src="img/ssr.png" alt="farwest" class="fragment" style="border: none; width: 49%;">
+    </section>
+    <section>
+      <h2>Learning curve</h2>
     </section>
   </section>
   <!--part 4: Tooling-->
   <section>
     <section>
-      <h2>Tooling</h2>
-      <img src="img/icecream-sandwiches.gif" style="border: none;">
+      <h2>JavaScript Dev Tools</h2>
+      <h3>(That Put Other Dev Tools to Shame)</h3>
+      <img src="https://twistedsifter.files.wordpress.com/2014/01/how-chain-link-is-made-gif.gif?w=500&h=256" style="border: none;">
+    </section>
+    <section>
+      <h2>Chrome dev tools</h2>
+      <a href="https://developer.chrome.com/devtools">developer.chrome.com/devtools</a>
+    </section>
+    <section>
+      <h2>Framework dev tools</h2>
+      <img src="img/frameworkdevtools.gif" alt="webpack" style="border: none; background: aliceblue;">
     </section>
     <section>
       <h2>NPM</h2>
@@ -384,7 +353,7 @@ new Vue({
 {
   "name": "js-today",
   "version": "1.0.0",
-  "author": "Maxence POUTORD <github@maxpou.fr>",
+  "author": "Maxence POUTORD &lt;github@maxpou.fr&gt;",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -402,6 +371,7 @@ new Vue({
   }
 }
       </code></pre>
+      <p>...or Yarn</p>
     </section>
     <section>
       <h2>Babel</h2>
@@ -421,20 +391,12 @@ new Vue({
       </code></pre>
     </section>
     <section>
-      <h2>ESLint</h2>
-      <p>Linter for Javascript</p>
-      <pre><code class="bash" data-trim>
-/Users/maxence.poutord/sites/lab/whatever.js
-  8:6  error  'test' is assigned a value but never used  no-unused-vars
-  10:5   error  Unexpected console statement             no-console
-  16:26  error  Missing semicolon                        semi
-
-✖ 3 problem (3 error, 0 warnings)
-      </code></pre>
+      <h2>Webpack (+hot module replacement)</h2>
+      <img src="img/webpack.png" alt="webpack" style="border: none; background: aliceblue;">
     </section>
   </section>
   <section>
-    <h2>Conclusion: Should I continue to use jQuery?</h2>
+    <h2>Conclusion: Should we continue to use jQuery?</h2>
     <img src="img/tech-debt.jpg" class="fragment">
   </section>
 </div>
