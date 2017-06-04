@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title>Javascript today</title>
+<title>Javascript re-introduction</title>
 <link rel="stylesheet" href="reveal.js/css/reveal.css">
 <link rel="stylesheet" href="reveal.js/css/theme/black.css" id="theme">
 <link rel="stylesheet" href="reveal.js/lib/css/zenburn.css">
@@ -32,53 +32,135 @@ document.getElementsByTagName( 'head' )[0].appendChild( link );
     </section>
   </section>
   <section>
-    <h2>Evolution of JS</h2>
-    <img src="img/evolution-js.png" style="padding: 10px; background: white;">
+    <section>
+      <h2>Evolution of JS</h2>
+      <img src="img/evolution-js.png" style="padding: 10px; background: white;">
+    </section>
+    <!--<section>
+      <h2>Today JS is...</h2>
+      <ul>
+        <li>multi-paradigm: object-oriented (prototype-based), imperative, functional</li>
+        <li>misunderstood language (i.e. this, prototypal inheritance, asynchronous...)</li>
+      </ul>
+    </section>-->
   </section>
-  <!--part 1: ES6-->
   <section>
     <section>
-      <h2>ECMAScript 2015 (ES6)</h2>
+      <h2>Recall</h2>
+    </section>
+    <section>
+      <h2>Synchronous vs Asynchronous</h2>
+      <img src="img/sync-vs-async.png" style="padding: 10px; background: white;">
+      <p class="fragment">JavaScript is Asynchronous</p>
+    </section>
+    <section>
+      <h2>Concurency vs Parallel</h2>
+      <img src="img/con-vs-par.jpg" style="padding: 10px; background: white;">
+      <p class="fragment">JavaScript is Concurent</p>
+    </section>
+    <section>
+      <h2>Data types in JS</h2>
+      <ul class="fragment">
+        <li>Number</li>
+        <li>String</li>
+        <li>Boolean</li>
+        <li>Symbol (new in ES2015)</li>
+        <li>Object</li>
+        <ul>
+          <li>Function</li>
+          <li>Array</li>
+          <li>Date</li>
+          <li>RegExp</li>
+        </ul>
+        <li>null</li>
+        <li>undefined</li>
+      </ul>
+    </section>
+    <!--
+    <section>
+      <h2>Semicolons</h2>
+
+    </section>
+    -->
+  </section>
+  <section>
+    <section>
+      <h2>ECMAScript 2015 (and beyond)</h2>
       <img src="img/es2015.jpg" style="border: none;">
+    </section>
+  </section>
+  <section>
+    <section>
+      <h2>Assigning a variable</h2>
+      <img src="img/icecream.gif" style="border: none;">
     </section>
     <section>
       <h2>var, let and const</h2>
-      <div class="fragment">
-        <ul>
-          <li>const: the identifier cannot be reassigned</li>
-          <li>let: the identifier cannot be redeclare</li>
-          <li>var: as usual...</li>
-        </ul>
-      </div>
-      <div class="fragment">
+      <img src="img/varletconst.jpg" style="width: 60%;border: none;">
+      <p>By <a href="https://twitter.com/kosamari">@kosamari</a></p>
+    </section>
+    <section>
+      <h2><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> const !== immutable <i class="fa fa-exclamation-triangle" aria-hidden="true"></i></h2>
       <pre><code class="javascript" data-trim>
-// const
-const url = "www.hostelworld.com"
-url = "http://www.hostelworld.com" // Uncaught TypeError: Assignment to constant variable
-const url = "www.hostelworld.com"  // Identifier 'url' has already been declared
-// let
-let url = "www.hostelworld.com"
-url = "http://www.hostelworld.com/"     // ok
-let url = "https://www.hostelworld.com" // Uncaught SyntaxError: Identifier 'url' has already been declared
-// var
-var url = "www.hostelworld.com"
-url = "http://www.hostelworld.com/"     // ok
-var url = "https://www.hostelworld.com" // ok
+const hero = {
+  name: 'The Punisher'
+}
+
+hero.name: 'Daredevil'
+
+console.log(hero) // Object {name: "Daredevil"}
       </code></pre>
-      </div>
+    </section>
+    <section>
+      <h2>let&const are block scoped</h2>
+      <pre><code class="javascript" data-trim>
+var x = 1
+if (true) {
+  var x = 2  // same variable
+  console.log(x)  // 2
+}
+console.log(x)  // 2
+      </code></pre>
+      <pre class="fragment"><code class="javascript" data-trim>
+let x = 1
+if (true) {
+  let x = 2  // different variable
+  console.log(x)  // 2
+}
+console.log(x)  // 1
+      </code></pre>
+    </section>
+  </section>
+  <section>
+    <section>
+      <h2>functions</h2>
+    </section>
+    <section>
+      <h2>Arrow function</h2>
+      <p class="fragment" data-fragment-index="0">shorter syntax</p>
+      <pre class="fragment" data-fragment-index="0"><code class="javascript" data-trim>
+function (a, b) {
+  return a + b
+}
+
+(a, b) => a + b
+      </code></pre>
+      <p class="fragment">Doesn't redefine: <code class="javascript" data-trim>this</code>, <code class="javascript" data-trim>arguments</code>, <code class="javascript" data-trim>super</code> and <code class="javascript" data-trim>new.target</code></p>
+      <p class="fragment">Bye bye "<code class="javascript" data-trim>var self = this</code>"!</p>
     </section>
     <section>
       <h2>Arrow functions</h2>
+      <pre><code class="javascript" data-trim>
+var fruit = ["apple", "banana", "kiwi"]
+      </code></pre>
       <p class="fragment" data-fragment-index="0">ES5:</p>
       <pre class="fragment" data-fragment-index="0"><code class="javascript" data-trim>
-var fruit = ["apple", "banana", "kiwi"]
 var fruitUpperCase = fruit.map(function (f) {
   return f.toUpperCase()
 })
       </code></pre>
-      <p class="fragment" data-fragment-index="1">ES6:</p>
+      <p class="fragment" data-fragment-index="1">ES2015+:</p>
       <pre class="fragment"  data-fragment-index="1"><code class="javascript" data-trim>
-const fruit = ["apple", "banana", "kiwi"]
 const fruitUpperCase = fruit.map(f => {
   return f.toUpperCase()
 })
@@ -86,11 +168,13 @@ const fruitUpperCase = fruit.map(f => {
 // or better:
 const fruitUpperCase = fruit.map(f => f.toUpperCase())
       </code></pre>
-      <p class="fragment">Bye bye "<code class="javascript" data-trim>var self = this</code>"</p>
     </section>
+  </section>
+  <section>
     <section>
-      <h2>Promises</h2>
-      <img src="img/promises.png" alt="promise">
+      <h2>Asynchronous</h2>
+      <blockquote class="twitter-tweet" data-lang="en"><p lang="en" dir="ltr">10 Things You’ll Find Shocking About Asynchronous Operations:<br><br>3.<br>2.<br>7.<br>4.<br>6.<br>1.<br>9.<br>10.<br>5.<br>8.</p>&mdash; I Am Devloper (@iamdevloper) <a href="https://twitter.com/iamdevloper/status/808344541669498881">December 12, 2016</a></blockquote>
+      <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
     </section>
     <section>
       <h2>Because JS is Asynchronous</h2>
@@ -118,21 +202,108 @@ const fruitUpperCase = fruit.map(f => f.toUpperCase())
       </code></pre>
     </section>
     <section>
+      <h2>Callback</h2>
+      <p>Lead to callback hell</p>
+    </section>
+    <section>
+      <h2>Callback hell</h2>
+      <pre><code class="javascript" data-trim>      
+getData(function (a) {
+  getMoreData(a, function (b) {
+    getMoreData(b, function (c) {
+      getMoreData(c, function (d) {
+        getMoreData(d, function (e) {
+          // ...
+        })
+      })
+    })
+  })
+})
+    </code></pre>  
+    </section>
+    <section>
+      <h2>Promises (ES2015)</h2>
+      <img src="img/promises.png" alt="promise">
+    </section>
+    <section>
+      <h2>Async / Await (ES2016)</h2>
+    </section>
+  </section>
+  <section>
+    <section>
+      <h2>Others ES2015+ features</h2>
+    </section>
+    <section>
       <h2>Template</h2>
-      <pre><code class="javascript fragment" data-trim>
+      <pre><code class="javascript" data-trim>
 const hostel = { name: "Happy hostel", price: 12.5, stars: 4.5 }
-
+      </pre></code>
+      <pre><code class="javascript" data-trim>
 // es5
 var html = "<h1>" + hostel.name + "</h1>"
 html    += "<span class='price'>" + hostel.price + "&euro;</span>"
 html    += "<span class='stars'>" + hostel.stars + "</span>"
-      </code><code class="javascript fragment" data-trim>
-// es6
+      </pre></code>
+      <pre class="fragment"><code class="javascript" data-trim>
+// ES2015
 const html = `
   <h1>${hostel.name}</h1>
   <span class="price">${hostel.price}&euro;</span>
   <span class="stars">${hostel.stars}</span>
 `
+      </code></pre>
+    </section>
+    <section>
+      <h2>Default parameters</h2>
+      <pre><code class="javascript" data-trim>
+function multiply(a, b = 1) {
+  return a * b;
+}
+
+multiply(5, 2) // 10
+multiply(5, 1) // 5
+multiply(5)    // 5
+      </code></pre>
+    </section>
+    <section>
+      <h2>Class</h2>
+      <div>
+      <pre><code class="javascript" data-trim>
+class Hero {
+  constructor (name) {
+    this.name = name
+  }
+
+  isBatman () {
+    return this.name === "Batman"
+  }
+}
+      </code></pre>
+      <pre class="fragment"><code class="javascript" data-trim>
+function Hero (name) {
+    this.name = name
+}
+
+Hero.prototype.isBatman = function () {
+    return this.name === "Batman"
+}
+      </code></pre>
+      <p class="fragment">class are <b style="color:red;">NOT</b> like OO classes</p>
+    </section>
+    <section>
+      <h2>Import / export</h2>
+      <pre><code class="javascript" data-trim>
+// my-module.js
+
+export default function cube (x) {
+  return x * x * x
+}
+      </code></pre>
+      <pre class="fragment"><code class="javascript" data-trim>
+// app.js
+
+import cube from 'my-module'
+console.log(cube(3)) // 27
       </code></pre>
     </section>
     <section>
@@ -144,17 +315,8 @@ const params = [ "hello", true, 7 ]
 const other = [ 1, 2, ...params ] // [ 1, 2, "hello", true, 7 ]
 </code></pre>
         </li>
-        <li><a href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Instructions/import">Import</a> / <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/export">export</a> (need transpiler)</li>
-        <li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/class">Class</a></li>
         <li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for...of">For...of</a></li>
-      </ul>
-    </section>
-    <section>
-      <h2>Browsers Support</h2>
-      <img src="img/support.png" style="border: none;width: 60%;">
-      <ul>
-        <li><a href="https://kangax.github.io/compat-table/es6/">kangax.github.io/compat-table/es6/</a></li>
-        <li><a href="http://caniuse.com/">caniuse.com</a></li>
+        <li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Generator">Generator</a></li>
       </ul>
     </section>
   </section>
@@ -195,8 +357,8 @@ function increment (number, increment) {
     <section>
       <h2>Immutability</h2>
       <pre><code class="javascript" data-trim>
-var properties = [{/* */}]
-for (var i = 0; i < properties.length; i++) {
+let properties = [{/* */}]
+for (let i = 0; i < properties.length; i++) {
   properties[i].image = properties[i].image.replace(/^http:\/\//i, 'https://')
   properties[i].price = properties[i].price + "€"
 }
@@ -206,14 +368,6 @@ for (var i = 0; i < properties.length; i++) {
         <li>After the loop properties state change. Doesn't represent properties anymore</li>
         <li>Non thread-safe code</li>
       </ul>
-      <pre><code class="javascript" data-trim>
-const properties = [{/* */}]
-const formattedProperties = properties.map(property => {
-  property.image = property.image.replace(/^http:\/\//i, 'https://')
-  property.price = property.price + "€"
-  return property
-})
-      </code></pre>
     </section>
     <section>
       <h2>High order function</h2>
@@ -228,49 +382,6 @@ const formattedProperties = properties.map(property => {
       <br>
       <p>Benefits: a better segregation in the code</p>
     </section>
-    <!-- <section>
-      <h2>Array.map (Imperative vs. Declarative)</h2>
-      <pre><code class="javascript" data-trim>
-// Imperative
-function printProperties (properties) {
-  for (var i = 0; i < properties.length; i++) {
-    properties[i] = properties[i].name + ", " + properties[i].city
-  }
-  return properties
-}
-      </code></pre>
-      <p>This function have 2 differents behaviors</p>
-      <ul>
-        <li>Browse the table</li>
-        <li>Transform data</li>
-      </ul>
-      <pre><code class="javascript" data-trim>
-// Declarative way
-function printProperties (properties) {
-  return properties.map(p => p.name + ", " + p.city)
-}
-      </code></pre>
-    </section>
-    <section>
-      <h2>Array.filter</h2>
-      <pre><code class="javascript fragment" data-trim>
-var highRatedProperties = []
-for (property of properties) {
-  if (property.rate >= 70) {
-    highRatedProperties.push(property)
-  }
-}
-      </code><br><code class="javascript fragment" data-trim>
-const highRatedProperties = properties.filter(property => property.rate >= 70)
-      </code></pre>
-    </section>
-    <section>
-      <h2>Array.reduce</h2>
-      <pre><code class="javascript" data-trim>
-const sumRate = properties.reduce((accumulator, current) => accumulator + current.rate, 0)
-const averageRate = sumRate / properties.length
-      </code></pre>
-    </section> -->
     <section>
       <h2>Cheat sheet</h2>
       <div style="margin-left: 26%;">
@@ -283,52 +394,10 @@ const averageRate = sumRate / properties.length
       <pre><code class="javascript" data-trim>
 const formatedHighRatedProperties = properties
   .filter(p => p.rate >= 70 || p.isNew)
-  .map(p => p.name + ", " + p.city)
   .sort((a, b) => b.rate - a.rate)
+  .map(p => p.name + ", " + p.city)
       </code></pre>
-    </section>
-  </section>
-  <!--part 3: New Frameworks-->
-  <section>
-    <section>
-      <h2 >Frameworks</h2>
-      <img src="img/frameworks-lib.png" style="border: none;width: 40%;">
-    </section>
-    <section>
-      <h2>Why moving away from jQuery?</h2>
-      <ul>
-        <li>Templating</li>
-        <li>Data-binding</li>
-        <li>Virtual dom</li>
-        <li>Clean, modular, reusable architecture (avoid Spaghetti code)</li>
-      </ul>
-    </section>
-    <section>
-      <h2>Make your life easier</h2>
-      <img src="img/margaret-hamilton.png" alt="margaret hamilton Apollo project">
-    </section>
-    <section>
-      <h2>Demo time</h2>
-      <ul>
-        <li>
-          <a href="https://github.com/maxpou/find-a-room-vuejs2"><i class="fa fa-globe" aria-hidden="true"></i> Application: maxpou.github.io/find-a-room-vuejs2</a>
-        </li>
-        <li>
-          <a href="https://github.com/maxpou/find-a-room-vuejs2"><i class="fa fa-github" aria-hidden="true"></i> Sources: github.com/maxpou/find-a-room-vuejs2</a>
-        </li>
-      </ul>
-    </section>
-    <section>
-      <h2>State of the <strike>art</strike> industry</h2>
-      <img src="img/farwest.jpg" alt="farwest" style="border: none;">
-    </section>
-    <section>
-      <h2>What about SEO?</h2>
-      <img src="img/csr.png" alt="farwest" class="fragment" style="border: none; width: 49%;">
-      <img src="img/ssr.png" alt="farwest" class="fragment" style="border: none; width: 49%;">
-    </section>
-    <section>
-      <h2>Learning curve</h2>
+      <p>Be declarative <i class="fa fa-heart" aria-hidden="true"></i></p>
     </section>
   </section>
   <!--part 4: Tooling-->
@@ -339,12 +408,16 @@ const formatedHighRatedProperties = properties
       <img src="https://twistedsifter.files.wordpress.com/2014/01/how-chain-link-is-made-gif.gif?w=500&h=256" style="border: none;">
     </section>
     <section>
-      <h2>Chrome dev tools</h2>
-      <a href="https://developer.chrome.com/devtools">developer.chrome.com/devtools</a>
+      <h2>Browsers Support</h2>
+      <img src="img/support.png" style="border: none;width: 60%;">
+      <ul>
+        <li><a href="https://kangax.github.io/compat-table/es6/">kangax.github.io/compat-table/es6/</a></li>
+        <li><a href="http://caniuse.com/">caniuse.com</a></li>
+      </ul>
     </section>
     <section>
-      <h2>Framework dev tools</h2>
-      <img src="img/frameworkdevtools.gif" alt="webpack" style="border: none; background: aliceblue;">
+      <h2>Chrome dev tools</h2>
+      <a href="https://developer.chrome.com/devtools">developer.chrome.com/devtools</a>
     </section>
     <section>
       <h2>NPM</h2>
@@ -371,13 +444,12 @@ const formatedHighRatedProperties = properties
   }
 }
       </code></pre>
-      <p>...or Yarn</p>
     </section>
     <section>
       <h2>Babel</h2>
-      <p>Transform es2015+ to ES5</p>
+      <p>Transform ES2015+ to ES5</p>
       <pre><code class="javascript" data-trim>
-// beatiful es6
+// beautiful ES2015+
 [1,2,3,4,5]
   .filter(n => n % 2 === 0)
   .map(n => n + 1)
@@ -396,8 +468,32 @@ const formatedHighRatedProperties = properties
     </section>
   </section>
   <section>
-    <h2>Conclusion: Should we continue to use jQuery?</h2>
-    <img src="img/tech-debt.jpg" class="fragment">
+    <section>
+      <h2>Reading</h2>
+      <ul>
+        <li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/A_re-introduction_to_JavaScript">A re-introduction to JavaScript (MDN)</a></li>
+        <li><a href="https://medium.com/@cscalfani/so-you-want-to-be-a-functional-programmer-part-1-1f15e387e536">So You Want to be a Functional Programmer</a></li>
+        <li><a href="http://www.maxpou.fr/no-more-loop-in-js/">No more for/while loop in JavaScript (by me 😉)</a></li>
+      </ul>
+    </section>
+    <section>
+      <h2>Reading</h2>
+      <h4>Master the JavaScript Interview (E. Elliott)</h3>
+      <ul>
+        <li><a href="https://medium.com/javascript-scene/master-the-javascript-interview-what-is-a-closure-b2f0d2152b36"
+            target="_blank">What is a Closure?</a></li>
+        <li><a href="https://medium.com/javascript-scene/master-the-javascript-interview-what-s-the-difference-between-class-prototypal-inheritance-e4cd0a7562e9"
+            target="_blank">What is the Difference Between Class and Prototypal Inheritance?</a></li>
+        <li><a href="https://medium.com/javascript-scene/master-the-javascript-interview-what-is-a-pure-function-d1c076bec976"
+            target="_blank">What is a Pure Function?</a></li>
+        <li><a href="https://medium.com/javascript-scene/master-the-javascript-interview-what-is-function-composition-20dfb109a1a0"
+            target="_blank">What is Function Composition?</a></li>
+        <li><a href="https://medium.com/javascript-scene/master-the-javascript-interview-what-is-functional-programming-7f218c68b3a0"
+            target="_blank">What is Functional Programming?</a></li>
+        <li><a href="https://medium.com/javascript-scene/master-the-javascript-interview-what-is-a-promise-27fc71e77261"
+            target="_blank">What is a Promise?</a></li>
+      </ul>
+      </section>
   </section>
 </div>
 </div>
