@@ -110,6 +110,7 @@ hero.name: 'Daredevil'
 
 console.log(hero) // Object {name: "Daredevil"}
       </code></pre>
+      <p class="fragment">That not a reason not to use it!</p>
     </section>
     <section>
       <h2>let&const are block scoped</h2>
@@ -151,35 +152,130 @@ function (a, b) {
     <section>
       <h2>Arrow functions</h2>
       <pre><code class="javascript" data-trim>
-var fruit = ["apple", "banana", "kiwi"]
+var fruits = ["apple", "banana", "kiwi"]
       </code></pre>
       <p class="fragment" data-fragment-index="0">ES5:</p>
       <pre class="fragment" data-fragment-index="0"><code class="javascript" data-trim>
-var fruitUpperCase = fruit.map(function (f) {
+var fruitsUpperCase = fruits.map(function (f) {
   return f.toUpperCase()
 })
       </code></pre>
       <p class="fragment" data-fragment-index="1">ES2015+:</p>
       <pre class="fragment"  data-fragment-index="1"><code class="javascript" data-trim>
-const fruitUpperCase = fruit.map(f => {
+const fruitsUpperCase = fruits.map(f => {
   return f.toUpperCase()
 })
       </code><code class="javascript fragment" data-fragment-index="2" data-trim>
 // or better:
-const fruitUpperCase = fruit.map(f => f.toUpperCase())
+const fruitsUpperCase = fruit.map(f => f.toUpperCase())
       </code></pre>
     </section>
   </section>
   <section>
     <section>
+      <h2>classical / prototypal inheritance</h2>
+      <ul class="fragment">
+        <li>A class is a blueprint</li>
+        <li>A prototype is an object instance.</li>
+      </ul>
+    </section>
+    <section>
+      <h2>Prototypal OOP</h2>
+      <ul>
+        <li>Each object is based on another one</li>
+        <li>Each function is potentialy a constructor</li>
+      </ul>
+      <pre><code class="javascript" data-trim>
+function Hero (options) {
+  this.name = options.name
+  this.nickname = options.nickname
+  this.family = options.family
+}
+
+const logan = new Hero({
+  name: 'Logan',
+  nickname: 'Wolverine',
+  family: 'Marvel'
+})
+      </code></pre>
+    </section>
+    <section>
+      <h2>Method inside constructor</h2>
+      <pre><code class="javascript" data-trim>
+function Hero (name) {
+  this.name = name
+
+  this.sayMyName = function () {
+    return "I'm " + this.name
+  }
+}
+
+var groot = new Hero('Groot')
+var heisenberg = new Hero('Heisenberg')
+      </code></pre>
+
+      <p class="fragment">Each instance redefine his own method</p>
+    </section>
+    <section>
+      <h2>Method outside constructor</h2>
+      <pre><code class="javascript" data-trim>
+function Hero (name) {
+  this.name = name
+}
+
+Hero.prototype.sayMyName = function () {
+  return "I'm " + this.name
+}
+
+var groot = new Hero('Groot')
+var heisenberg = new Hero('Heisenberg')
+
+      </code></pre>
+      <p class="fragment">Instances share the same method</p>
+    </section>
+    <section>
+      <h2>Class (ES2015)</h2>
+      <pre><code class="javascript" data-trim>
+class Hero {
+  constructor (name) {
+    this.name = name
+  }
+
+  sayMyName () {
+    return "I'm " + this.name
+  }
+}
+      </code></pre>
+      <p class="fragment">===</p>
+      <pre class="fragment"><code class="javascript" data-trim>
+function Hero (name) {
+    this.name = name
+}
+
+Hero.prototype.sayMyName = function () {
+    return "I'm " + this.name
+}
+      </code></pre>
+      <p class="fragment">class are <b style="color:red;">NOT</b> like OO classes (= syntactic sugar)</p>
+    </section>
+    <section>
+      <h2><s>Inheritance</s></h2>
+      <p>Composition over inheritance</p>
+      <iframe width="560" height="315" src="https://www.youtube.com/embed/wfMtDGfHWpA" frameborder="0" allowfullscreen></iframe>
+    </section>
+  </section>
+  <section>
+    <section>
       <h2>Asynchronous</h2>
-      <blockquote class="twitter-tweet" data-lang="en"><p lang="en" dir="ltr">10 Things You’ll Find Shocking About Asynchronous Operations:<br><br>3.<br>2.<br>7.<br>4.<br>6.<br>1.<br>9.<br>10.<br>5.<br>8.</p>&mdash; I Am Devloper (@iamdevloper) <a href="https://twitter.com/iamdevloper/status/808344541669498881">December 12, 2016</a></blockquote>
-      <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+      <div style="margin-left: 26%;">
+        <blockquote class="twitter-tweet" data-lang="en"><p lang="en" dir="ltr">10 Things You’ll Find Shocking About Asynchronous Operations:<br><br>3.<br>2.<br>7.<br>4.<br>6.<br>1.<br>9.<br>10.<br>5.<br>8.</p>&mdash; I Am Devloper (@iamdevloper) <a href="https://twitter.com/iamdevloper/status/808344541669498881">December 12, 2016</a></blockquote>
+        <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+      </div>
     </section>
     <section>
       <h2>Because JS is Asynchronous</h2>
       <pre><code class="javascript" data-trim>
-  function findBurgers (url, callback) {
+  function ajaxBurgers (url, callback) {
     const fakeDelay = Math.random() * 1500
     const fakeResponse = ['🍔', '🌮', '🌭']
     setTimeout(() => {
@@ -191,7 +287,7 @@ const fruitUpperCase = fruit.map(f => f.toUpperCase())
   menu.drink = '🍹'
   menu.side = '🍟'
   </code><code class="javascript fragment" data-trim>
-  findBurgers('http://burgers.maxpou.fr', (data) => {
+  ajaxBurgers('http://burgers.maxpou.fr', (data) => {
     menu.burger = data[0]
   })
   </code><code class="javascript fragment" data-trim>
@@ -257,38 +353,13 @@ const html = `
       <h2>Default parameters</h2>
       <pre><code class="javascript" data-trim>
 function multiply(a, b = 1) {
-  return a * b;
+  return a * b
 }
 
 multiply(5, 2) // 10
 multiply(5, 1) // 5
 multiply(5)    // 5
       </code></pre>
-    </section>
-    <section>
-      <h2>Class</h2>
-      <div>
-      <pre><code class="javascript" data-trim>
-class Hero {
-  constructor (name) {
-    this.name = name
-  }
-
-  isBatman () {
-    return this.name === "Batman"
-  }
-}
-      </code></pre>
-      <pre class="fragment"><code class="javascript" data-trim>
-function Hero (name) {
-    this.name = name
-}
-
-Hero.prototype.isBatman = function () {
-    return this.name === "Batman"
-}
-      </code></pre>
-      <p class="fragment">class are <b style="color:red;">NOT</b> like OO classes</p>
     </section>
     <section>
       <h2>Import / export</h2>
@@ -311,8 +382,9 @@ console.log(cube(3)) // 27
       <ul>
         <li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_operator">Spread syntax</a>, <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/rest_parameters">Rest parameters</a>
 <pre><code class="javascript" data-trim>
-const params = [ "hello", true, 7 ]
-const other = [ 1, 2, ...params ] // [ 1, 2, "hello", true, 7 ]
+const heros = [ "Dardevil", "Punisher" ]
+const fullteam = [ "J. Jones", "Luke Cage", ...heros ]
+fullteam // [ "J. Jones", "Luke Cage", "Dardevil", "Punisher" ]
 </code></pre>
         </li>
         <li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for...of">For...of</a></li>
@@ -359,13 +431,14 @@ function increment (number, increment) {
       <pre><code class="javascript" data-trim>
 let properties = [{/* */}]
 for (let i = 0; i < properties.length; i++) {
-  properties[i].image = properties[i].image.replace(/^http:\/\//i, 'https://')
-  properties[i].price = properties[i].price + "€"
+  properties[i].price = properties[i].price * 1.2
+  properties[i].curency = "€"
 }
       </code></pre>
       <ul>
         <li>Break Single Responsability Princile (S of SOLID)</li>
-        <li>After the loop properties state change. Doesn't represent properties anymore</li>
+        <li>After the loop properties state change. It doesn't represent properties anymore <br>
+        <i class="fa fa-arrow-right" aria-hidden="true"></i> Thanks for the headache <i class="fa fa-heart" aria-hidden="true"></i></li>
         <li>Non thread-safe code</li>
       </ul>
     </section>
@@ -378,16 +451,16 @@ for (let i = 0; i < properties.length; i++) {
           <li>returns a function as its result.</li>
         </ul>
       </blockquote>
-      <p><em style="float: right;">Source: <a href="https://en.wikipedia.org/wiki/Higher-order_function">Wikipedia</a></em></p>
-      <br>
-      <p>Benefits: a better segregation in the code</p>
-    </section>
-    <section>
-      <h2>Cheat sheet</h2>
-      <div style="margin-left: 26%;">
-        <blockquote class="twitter-tweet" data-lang="fr"><p lang="en" dir="ltr">Map/filter/reduce in a tweet:<br><br>map([🌽, 🐮, 🐔], cook)<br>=&gt; [🍿, 🍔, 🍳]<br><br>filter([🍿, 🍔, 🍳], isVegetarian)<br>=&gt;  [🍿, 🍳]<br><br>reduce([🍿, 🍳], eat)<br>=&gt; 💩</p>&mdash; Steven Luscher (@steveluscher) <a href="https://twitter.com/steveluscher/status/741089564329054208">10 juin 2016</a></blockquote>
-        <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
-      </div>
+      <pre><code class="javascript" data-trim>
+function add (x) {
+  return function (y) {
+    return x + y
+  }
+}
+var add4 = add(4)
+add4(38) // 42
+add4(4)  // 8
+      </code></pre>
     </section>
     <section>
       <h2>Embrace the power of Array</h2>
@@ -398,6 +471,13 @@ const formatedHighRatedProperties = properties
   .map(p => p.name + ", " + p.city)
       </code></pre>
       <p>Be declarative <i class="fa fa-heart" aria-hidden="true"></i></p>
+    </section>
+    <section>
+      <h2>Cheat sheet</h2>
+      <div style="margin-left: 26%;">
+        <blockquote class="twitter-tweet" data-lang="fr"><p lang="en" dir="ltr">Map/filter/reduce in a tweet:<br><br>map([🌽, 🐮, 🐔], cook)<br>=&gt; [🍿, 🍔, 🍳]<br><br>filter([🍿, 🍔, 🍳], isVegetarian)<br>=&gt;  [🍿, 🍳]<br><br>reduce([🍿, 🍳], eat)<br>=&gt; 💩</p>&mdash; Steven Luscher (@steveluscher) <a href="https://twitter.com/steveluscher/status/741089564329054208">10 juin 2016</a></blockquote>
+        <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+      </div>
     </section>
   </section>
   <!--part 4: Tooling-->
@@ -461,6 +541,7 @@ const formatedHighRatedProperties = properties
   return n + 1;
 });
       </code></pre>
+      <p class="fragment">Don't forget the <a href="https://github.com/babel/babel-preset-env">babel-preset-env</a></p>
     </section>
     <section>
       <h2>Webpack (+hot module replacement)</h2>
