@@ -46,18 +46,18 @@ document.getElementsByTagName( 'head' )[0].appendChild( link );
   </section>
   <section>
     <section>
-      <h2>Recall</h2>
+      <h2>Reminder</h2>
     </section>
     <section>
       <h2>Synchronous vs Asynchronous</h2>
       <img src="img/sync-vs-async.png" style="padding: 10px; background: white;">
       <p class="fragment">JavaScript is Asynchronous</p>
     </section>
-    <section>
-      <h2>Concurency vs Parallel</h2>
+    <!--<section>-->
+      <!--<h2>Concurency vs Parallel</h2>
       <img src="img/con-vs-par.jpg" style="padding: 10px; background: white;">
       <p class="fragment">JavaScript is Concurent</p>
-    </section>
+    </section>-->
     <section>
       <h2>Data types in JS</h2>
       <ul class="fragment">
@@ -130,11 +130,39 @@ if (true) {
 }
 console.log(x)  // 1
       </code></pre>
+      <p>let&const are also intemporal dead zone</p>
     </section>
   </section>
   <section>
     <section>
-      <h2>functions</h2>
+      <h2>Arrow function</h2>
+    </section>
+    <section>
+      <h2>Closures</h2>
+      <pre><code class="javascript" data-trim>
+var counter = (function() {
+  var privateCounter = 0
+  function changeBy (val) {
+    privateCounter += val
+  }
+  return {
+    increment: function () {
+      changeBy(1)
+    },
+    decrement: function () {
+      changeBy(-1)
+    },
+    value: function () {
+      return privateCounter
+    }
+  }   
+})()
+      </code></pre>
+      <pre><code class="javascript" data-trim>
+counter.increment()
+counter.increment()
+counter.value() // 2
+      </code></pre>
     </section>
     <section>
       <h2>Arrow function</h2>
@@ -299,11 +327,22 @@ Hero.prototype.sayMyName = function () {
     </section>
     <section>
       <h2>Callback</h2>
-      <p>Lead to callback hell</p>
+      <pre><code class="javascript" data-trim>
+$.ajax({
+  type: "GET",
+  url: "http://burgers.maxpou.fr",
+  success: function (returnValue){
+    console.log('Success!!')
+  },
+  error: function (request,error) {
+    console.log('Oooopss')
+  }
+})
+    </code></pre>
     </section>
     <section>
       <h2>Callback hell</h2>
-      <pre><code class="javascript" data-trim>      
+      <pre><code class="javascript" data-trim>
 getData(function (a) {
   getMoreData(a, function (b) {
     getMoreData(b, function (c) {
@@ -320,6 +359,53 @@ getData(function (a) {
     <section>
       <h2>Promises (ES2015)</h2>
       <img src="img/promises.png" alt="promise">
+      <p class="fragment" data-fragment-index="0">3 states:</p>
+      <ul class="fragment" data-fragment-index="0">
+        <li><b>pending</b> initial state</li>
+        <li><b>fulfilled</b> operation completed successfully</li>
+        <li><b>rejected</b> operation failed</li>
+      </ul>
+    </section>
+    <section>
+      <h2>Example</h2>
+      <pre><code class="javascript" data-trim>
+function ajax (url, method, data) {
+  return new Promise(function (resolve, reject) {
+    const request = new XMLHttpRequest()
+    request.responseType = 'text'
+    request.onreadystatechange = function() {
+      if (request.readyState === XMLHttpRequest.DONE) {
+        if (request.status === 200) {
+          resolve(request.responseText)
+        } else {
+          console.log(request)
+          reject(request.statusText)
+        }
+      }
+    }
+    request.onerror = function() {
+      reject("Network Error")
+    }
+    request.open(method, url, true)
+    request.send(data)
+  })
+}
+      </code></pre>
+    </section>
+    <section>
+      <h2>Using & chaining</h2>
+      <pre><code class="javascript" data-trim>
+ajax('http://burgers.maxpou.fr', 'GET')
+  .then(burger => eat(burger))
+  .then(() => new Promise(function (resolve) {
+    return resolve('Save the world: ✅')))
+  }
+  // equivalent with arrow function
+  .then(() => new Promise(r => r('Go for a 🍺 now')))
+  .catch((e) => {
+     console.log(e)
+  })
+      </code></pre>
     </section>
     <section>
       <h2>Async / Await (ES2016)</h2>
