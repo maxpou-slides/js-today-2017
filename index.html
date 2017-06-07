@@ -277,11 +277,11 @@ class Hero {
       <p class="fragment">===</p>
       <pre class="fragment"><code class="javascript" data-trim>
 function Hero (name) {
-    this.name = name
+  this.name = name
 }
 
 Hero.prototype.sayMyName = function () {
-    return "I'm " + this.name
+  return "I'm " + this.name
 }
       </code></pre>
       <p class="fragment">class are <b style="color:red;">NOT</b> like OO classes (= syntactic sugar)</p>
@@ -303,26 +303,26 @@ Hero.prototype.sayMyName = function () {
     <section>
       <h2>Because JS is Asynchronous</h2>
       <pre><code class="javascript" data-trim>
-  function ajaxBurgers (url, callback) {
-    const fakeDelay = Math.random() * 1500
-    const fakeResponse = ['🍔', '🌮', '🌭']
-    setTimeout(() => {
-      callback(fakeResponse)
-    }, fakeDelay)
-  }
+function ajaxBurgers (url, callback) {
+  const fakeDelay = Math.random() * 1500
+  const fakeResponse = ['🍔', '🌮', '🌭']
+  setTimeout(() => {
+    callback(fakeResponse)
+  }, fakeDelay)
+}
 
-  const menu = {}
-  menu.drink = '🍹'
-  menu.side = '🍟'
+const menu = {}
+menu.drink = '🍹'
+menu.side = '🍟'
   </code><code class="javascript fragment" data-trim>
-  ajaxBurgers('http://burgers.maxpou.fr', (data) => {
-    menu.burger = data[0]
-  })
+ajaxBurgers('http://burgers.maxpou.fr', (data) => {
+  menu.burger = data[0]
+})
   </code><code class="javascript fragment" data-trim>
-  console.log(menu) // {drink: "🍹", side: "🍟"}
+console.log(menu) // {drink: "🍹", side: "🍟"}
   </code><code class="javascript fragment" data-trim>
-  // ... after ...
-  console.log(menu) // {drink: "🍹", side: "🍟", burger: "🍔"}
+// ... after ...
+console.log(menu) // {drink: "🍹", side: "🍟", burger: "🍔"}
       </code></pre>
     </section>
     <section>
@@ -361,9 +361,9 @@ getData(function (a) {
       <img src="img/promises.png" alt="promise">
       <p class="fragment" data-fragment-index="0">3 states:</p>
       <ul class="fragment" data-fragment-index="0">
-        <li><b>pending</b> initial state</li>
-        <li><b>fulfilled</b> operation completed successfully</li>
-        <li><b>rejected</b> operation failed</li>
+        <li><b>pending</b>: initial state</li>
+        <li><b>fulfilled</b>: operation completed successfully</li>
+        <li><b>rejected</b>: operation failed</li>
       </ul>
     </section>
     <section>
@@ -378,7 +378,6 @@ function ajax (url, method, data) {
         if (request.status === 200) {
           resolve(request.responseText)
         } else {
-          console.log(request)
           reject(request.statusText)
         }
       }
@@ -397,9 +396,11 @@ function ajax (url, method, data) {
       <pre><code class="javascript" data-trim>
 ajax('http://burgers.maxpou.fr', 'GET')
   .then(burger => eat(burger))
-  .then(() => new Promise(function (resolve) {
-    return resolve('Save the world: ✅')))
-  }
+  .then(function () {
+    new Promise(function (resolve) {
+      return resolve('Save the world: ✅')))
+    }
+  } 
   // equivalent with arrow function
   .then(() => new Promise(r => r('Go for a 🍺 now')))
   .catch((e) => {
@@ -438,7 +439,7 @@ const html = `
     <section>
       <h2>Default parameters</h2>
       <pre><code class="javascript" data-trim>
-function multiply(a, b = 1) {
+function multiply (a, b = 1) {
   return a * b
 }
 
