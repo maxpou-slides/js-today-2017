@@ -22,7 +22,8 @@ document.getElementsByTagName( 'head' )[0].appendChild( link );
 <div class="slides">
   <section>
     <section>
-      <h2>Javascript today</h2>
+      <h2>JS today</h2>
+      <h3>A (re-)introduction to JavaScript</h3>
       <p class="me">Maxence POUTORD</p>
       <p class="me-link">
         <a href="https://twitter.com/_maxpou"><i class="fa fa-twitter"></i> @_maxpou</a> |
@@ -59,12 +60,26 @@ document.getElementsByTagName( 'head' )[0].appendChild( link );
       <p class="fragment">JavaScript is Concurent</p>
     </section>-->
     <section>
+      <h2>Data types</h2>
+      <ul>
+        <li>Integer</li>
+        <li>Float</li>
+        <li>String</li>
+        <li>Boolean</li>
+        <li>Object</li>
+        <li>Function</li>
+        <li>Array</li>
+        <li>null</li>
+        <li>undefined</li>
+        <li>Symbol (new in ES2015)</li>
+      </ul>
+    </section>
+    <section>
       <h2>Data types in JS</h2>
       <ul class="fragment">
         <li>Number</li>
         <li>String</li>
         <li>Boolean</li>
-        <li>Symbol (new in ES2015)</li>
         <li>Object</li>
         <ul>
           <li>Function</li>
@@ -74,6 +89,7 @@ document.getElementsByTagName( 'head' )[0].appendChild( link );
         </ul>
         <li>null</li>
         <li>undefined</li>
+        <li>Symbol (new in ES2015)</li>
       </ul>
     </section>
     <!--
@@ -135,13 +151,30 @@ console.log(x)  // 1
   </section>
   <section>
     <section>
-      <h2>Arrow function</h2>
+      <h2>Function</h2>
+    </section>
+    <section>
+      <h2>First class citizen</h2>
+      <p>In JS a function can be passed just like any other value</p>
+      <pre><code class="javascript fragment" data-trim>
+const hero = {
+  name: 'The Punisher',
+  shoot: function () {
+    return 'bang bang'
+  }
+}
+
+hero.name // 'The Punisher'
+hero.shoot // function () { return 'bang bang }
+hero.shoot() // 'bang bang'
+      </code></pre>
+      <p></p>
     </section>
     <section>
       <h2>Closures</h2>
       <pre><code class="javascript" data-trim>
-var counter = (function() {
-  var privateCounter = 0
+const counter = (function () {
+  let privateCounter = 0
   function changeBy (val) {
     privateCounter += val
   }
@@ -155,7 +188,7 @@ var counter = (function() {
     value: function () {
       return privateCounter
     }
-  }   
+  }
 })()
       </code></pre>
       <pre><code class="javascript" data-trim>
@@ -169,6 +202,10 @@ counter.value() // 2
       <p class="fragment" data-fragment-index="0">shorter syntax</p>
       <pre class="fragment" data-fragment-index="0"><code class="javascript" data-trim>
 function (a, b) {
+  return a + b
+}
+
+(a, b) => {
   return a + b
 }
 
@@ -210,7 +247,7 @@ const fruitsUpperCase = fruit.map(f => f.toUpperCase())
     <section>
       <h2>Prototypal OOP</h2>
       <ul>
-        <li>Each object is based on another one</li>
+        <li>Each object is based on another object</li>
         <li>Each function is potentialy a constructor</li>
       </ul>
       <pre><code class="javascript" data-trim>
@@ -233,16 +270,16 @@ const logan = new Hero({
 function Hero (name) {
   this.name = name
 
-  this.sayMyName = function () {
-    return "I'm " + this.name
+  this.describe = function () {
+    return 'I\'m ' + this.name
   }
 }
 
 var groot = new Hero('Groot')
-var heisenberg = new Hero('Heisenberg')
+groot.describe() // "I'm Groot"
       </code></pre>
 
-      <p class="fragment">Each instance redefine his own method</p>
+      <p class="fragment">Each instance redefine his own method 👎</p>
     </section>
     <section>
       <h2>Method outside constructor</h2>
@@ -251,15 +288,14 @@ function Hero (name) {
   this.name = name
 }
 
-Hero.prototype.sayMyName = function () {
-  return "I'm " + this.name
+Hero.prototype.describe = function () {
+  return 'I\'m ' + this.name
 }
 
 var groot = new Hero('Groot')
-var heisenberg = new Hero('Heisenberg')
-
+groot.describe() // "I'm Groot"
       </code></pre>
-      <p class="fragment">Instances share the same method</p>
+      <p class="fragment">Instances share the same method 👍</p>
     </section>
     <section>
       <h2>Class (ES2015)</h2>
@@ -269,8 +305,8 @@ class Hero {
     this.name = name
   }
 
-  sayMyName () {
-    return "I'm " + this.name
+  describe () {
+    return 'I\'m ' + this.name
   }
 }
       </code></pre>
@@ -280,8 +316,8 @@ function Hero (name) {
   this.name = name
 }
 
-Hero.prototype.sayMyName = function () {
-  return "I'm " + this.name
+Hero.prototype.describe = function () {
+  return 'I\'m ' + this.name
 }
       </code></pre>
       <p class="fragment">class are <b style="color:red;">NOT</b> like OO classes (= syntactic sugar)</p>
@@ -290,6 +326,9 @@ Hero.prototype.sayMyName = function () {
       <h2><s>Inheritance</s></h2>
       <p>Composition over inheritance</p>
       <iframe width="560" height="315" src="https://www.youtube.com/embed/wfMtDGfHWpA" frameborder="0" allowfullscreen></iframe>
+      <aside class="notes">
+        “The problem with object-oriented languages is they’ve got all this implicit environment that they carry around with them. You wanted a banana but what you got was a gorilla holding the banana and the entire jungle.” ~ Joe Armstrong
+      </aside>
     </section>
   </section>
   <section>
@@ -329,9 +368,9 @@ console.log(menu) // {drink: "🍹", side: "🍟", burger: "🍔"}
       <h2>Callback</h2>
       <pre><code class="javascript" data-trim>
 $.ajax({
-  type: "GET",
-  url: "http://burgers.maxpou.fr",
-  success: function (returnValue){
+  type: 'GET',
+  url: 'http://burgers.maxpou.fr',
+  success: function (returnValue) {
     console.log('Success!!')
   },
   error: function (request,error) {
@@ -358,8 +397,8 @@ getData(function (a) {
     </section>
     <section>
       <h2>Promises (ES2015)</h2>
-      <img src="img/promises.png" alt="promise">
-      <p class="fragment" data-fragment-index="0">3 states:</p>
+      <img src="img/promises.png" alt="promise" style="width: 60%;">
+      <p class="fragment" data-fragment-index="0">Available states:</p>
       <ul class="fragment" data-fragment-index="0">
         <li><b>pending</b>: initial state</li>
         <li><b>fulfilled</b>: operation completed successfully</li>
@@ -367,26 +406,38 @@ getData(function (a) {
       </ul>
     </section>
     <section>
-      <h2>Example</h2>
+      <h2>Structure</h2>
       <pre><code class="javascript" data-trim>
-function ajax (url, method, data) {
+var promise = new Promise(function(resolve, reject) {
+  // do a thing, possibly async, then…
+
+  if (/* everything turned out fine */) {
+    resolve('OK!')
+  } else {
+    reject(Error('KO'))
+  }
+})
+      </code></pre>
+    </section>
+    <section>
+      <h2>Example</h2>
+      <pre class="sticky"><code class="javascript" data-trim>
+function ajax (url) {
   return new Promise(function (resolve, reject) {
-    const request = new XMLHttpRequest()
-    request.responseType = 'text'
-    request.onreadystatechange = function() {
-      if (request.readyState === XMLHttpRequest.DONE) {
-        if (request.status === 200) {
-          resolve(request.responseText)
-        } else {
-          reject(request.statusText)
-        }
+    var req = new XMLHttpRequest()
+    req.open('GET', url)
+    req.onload = function () {
+      if (req.status === 200) {
+        resolve(req.response)
+      } else {
+        reject(Error(req.statusText))
       }
     }
-    request.onerror = function() {
-      reject("Network Error")
+
+    req.onerror = function () {
+      reject(Error('Network Error'))
     }
-    request.open(method, url, true)
-    request.send(data)
+    req.send()
   })
 }
       </code></pre>
@@ -396,11 +447,12 @@ function ajax (url, method, data) {
       <pre><code class="javascript" data-trim>
 ajax('http://burgers.maxpou.fr', 'GET')
   .then(burger => eat(burger))
+  // equivalent without arrow function
   .then(function () {
     new Promise(function (resolve) {
-      return resolve('Save the world: ✅')))
-    }
-  } 
+      return resolve('Save the world: ✅')
+    )}
+  })
   // equivalent with arrow function
   .then(() => new Promise(r => r('Go for a 🍺 now')))
   .catch((e) => {
@@ -409,7 +461,36 @@ ajax('http://burgers.maxpou.fr', 'GET')
       </code></pre>
     </section>
     <section>
+      <h2>Dealing with multiple promises</h2>
+      <pre><code class="javascript" data-trim>
+const eatBurger = new Promise(resolve => resolve('🍔'))
+const eatTaco = new Promise(resolve => resolve('🌮'))
+const eatHotdog = new Promise(resolve => resolve('🌭'))
+      </pre></code>
+      <pre class="fragment"><code class="javascript" data-trim>
+Promise.all([eatBurger, eatTaco, eatHotdog]).then(values => {
+  console.log('You eat: ' + values) // You eat: 🍔,🌮,🌭
+})
+      </pre></code>
+      <pre class="fragment"><code class="javascript" data-trim>
+Promise.race([eatBurger, eatTaco, eatHotdog]).then(values => {
+  console.log('You were quicker to eat: ' + values) 
+  // You were quicker to eat: 🍔
+})
+      </pre></code>
+    </section>
+    <section>
       <h2>Async / Await (ES2016)</h2>
+      <pre><code class="javascript" data-trim>
+const storage = {
+  async getAvatar (name) {
+    const cache = await caches.open('avatars')
+    return cache.match(`/avatars/${name}.jpg`)
+  }
+}
+
+storage.getAvatar('maxpou').then(…)
+      </pre></code>
     </section>
   </section>
   <section>
@@ -418,21 +499,21 @@ ajax('http://burgers.maxpou.fr', 'GET')
     </section>
     <section>
       <h2>Template</h2>
-      <pre><code class="javascript" data-trim>
-const hostel = { name: "Happy hostel", price: 12.5, stars: 4.5 }
+      <pre><code class="javascript" data-trim style="width: inherit;">
+const hero = { name: 'Logan', nickname: 'Wolverine', family: 'Marvel' }
       </pre></code>
       <pre><code class="javascript" data-trim>
 // es5
-var html = "<h1>" + hostel.name + "</h1>"
-html    += "<span class='price'>" + hostel.price + "&euro;</span>"
-html    += "<span class='stars'>" + hostel.stars + "</span>"
+var html = "<h1>" + hero.name + "</h1>"
+html    += "<span class='nickname'>" + hero.nickname + "&euro;</span>"
+html    += "<span class='family'>" + hero.family + "</span>"
       </pre></code>
       <pre class="fragment"><code class="javascript" data-trim>
 // ES2015
 const html = `
-  <h1>${hostel.name}</h1>
-  <span class="price">${hostel.price}&euro;</span>
-  <span class="stars">${hostel.stars}</span>
+  <h1>${hero.name}</h1>
+  <span class="nickname">${hero.nickname}&euro;</span>
+  <span class="family">${hero.family}</span>
 `
       </code></pre>
     </section>
@@ -469,9 +550,9 @@ console.log(cube(3)) // 27
       <ul>
         <li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_operator">Spread syntax</a>, <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/rest_parameters">Rest parameters</a>
 <pre><code class="javascript" data-trim>
-const heros = [ "Dardevil", "Punisher" ]
-const fullteam = [ "J. Jones", "Luke Cage", ...heros ]
-fullteam // [ "J. Jones", "Luke Cage", "Dardevil", "Punisher" ]
+const heros = [ 'Dardevil', 'Punisher' ]
+const fullteam = [ 'J. Jones', 'Luke Cage', ...heros ]
+fullteam // [ 'J. Jones', 'Luke Cage', 'Dardevil', 'Punisher' ]
 </code></pre>
         </li>
         <li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for...of">For...of</a></li>
@@ -519,7 +600,7 @@ function increment (number, increment) {
 let properties = [{/* */}]
 for (let i = 0; i < properties.length; i++) {
   properties[i].price = properties[i].price * 1.2
-  properties[i].curency = "€"
+  properties[i].curency = '€'
 }
       </code></pre>
       <ul>
@@ -555,7 +636,7 @@ add4(4)  // 8
 const formatedHighRatedProperties = properties
   .filter(p => p.rate >= 70 || p.isNew)
   .sort((a, b) => b.rate - a.rate)
-  .map(p => p.name + ", " + p.city)
+  .map(p => p.name + ', ' + p.city)
       </code></pre>
       <p>Be declarative <i class="fa fa-heart" aria-hidden="true"></i></p>
     </section>
@@ -633,6 +714,10 @@ const formatedHighRatedProperties = properties
     <section>
       <h2>Webpack (+hot module replacement)</h2>
       <img src="img/webpack.png" alt="webpack" style="border: none; background: aliceblue;">
+    </section>
+    <section>
+      <h2>Framework / Libraries tooling</h2>
+      <img src="img/frameworkdevtools.gif" alt="vue chrome extension" style="border: none; width: 65%;">
     </section>
   </section>
   <section>
