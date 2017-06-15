@@ -94,8 +94,7 @@ document.getElementsByTagName( 'head' )[0].appendChild( link );
     </section>
     <!--
     <section>
-      <h2>Semicolons</h2>
-
+      <h2>Semicolons?</h2>
     </section>
     -->
   </section>
@@ -146,7 +145,7 @@ if (true) {
 }
 console.log(x)  // 1
       </code></pre>
-      <p>let&const are also intemporal dead zone</p>
+      <p class="fragment">let&const are also intemporal dead zone</p>
     </section>
   </section>
   <section>
@@ -275,11 +274,19 @@ function Hero (name) {
   }
 }
 
-var groot = new Hero('Groot')
+const groot = new Hero('Groot')
 groot.describe() // "I'm Groot"
       </code></pre>
-
       <p class="fragment">Each instance redefine his own method 👎</p>
+
+      <aside class="notes">
+        <pre><code class="javascript" data-trim>
+const bob = new Hero('bob')
+bob.describe = () => 'Hello bob'
+bob.describe()   // "Hello bob"
+groot.describe() // "I'm Groot"
+        </code></pre>
+      </aside>
     </section>
     <section>
       <h2>Method outside constructor</h2>
@@ -292,7 +299,7 @@ Hero.prototype.describe = function () {
   return 'I\'m ' + this.name
 }
 
-var groot = new Hero('Groot')
+const groot = new Hero('Groot')
 groot.describe() // "I'm Groot"
       </code></pre>
       <p class="fragment">Instances share the same method 👍</p>
@@ -309,6 +316,17 @@ class Hero {
     return 'I\'m ' + this.name
   }
 }
+
+const groot = new Hero('Groot')
+groot.describe() // "I'm Groot"
+      </code></pre>
+      <p class="fragment">How to create private attribute?</p>
+      <p class="fragment">Well, you can't :)</p>
+    </section>
+    <section>
+      <h2>It's a fake!</h2>
+      <pre class="fragment"><code class="javascript" data-trim>
+typeof Hero // function
       </code></pre>
       <p class="fragment">===</p>
       <pre class="fragment"><code class="javascript" data-trim>
@@ -323,11 +341,13 @@ Hero.prototype.describe = function () {
       <p class="fragment">class are <b style="color:red;">NOT</b> like OO classes (= syntactic sugar)</p>
     </section>
     <section>
-      <h2><s>Inheritance</s></h2>
-      <p>Composition over inheritance</p>
-      <iframe width="560" height="315" src="https://www.youtube.com/embed/wfMtDGfHWpA" frameborder="0" allowfullscreen></iframe>
+      <h2 class="fragment strike" data-fragment-index="0">Inheritance</h2>
+      <p class="fragment" data-fragment-index="0">Composition over inheritance</p>
+      <iframe class="fragment" data-fragment-index="0" width="560" height="315" src="https://www.youtube.com/embed/wfMtDGfHWpA" frameborder="0" allowfullscreen></iframe>
+
       <aside class="notes">
-        “The problem with object-oriented languages is they’ve got all this implicit environment that they carry around with them. You wanted a banana but what you got was a gorilla holding the banana and the entire jungle.” ~ Joe Armstrong
+        <p>“The problem with object-oriented languages is they’ve got all this implicit environment that they carry around with them. You wanted a banana but what you got was a gorilla holding the banana and the entire jungle.” ~ Joe Armstrong</p>
+        <p><a href="https://gist.github.com/maxpou/736f372c19dd01b6e3ca88b73c9ef78a">gist.github.com/maxpou - example</a></p>
       </aside>
     </section>
   </section>
@@ -397,7 +417,7 @@ getData(function (a) {
     </section>
     <section>
       <h2>Promises (ES2015)</h2>
-      <img src="img/promises.png" alt="promise" style="width: 60%;">
+      <img src="img/promises.png" alt="promise" style="width: 60%;border: 0;">
       <p class="fragment" data-fragment-index="0">Available states:</p>
       <ul class="fragment" data-fragment-index="0">
         <li><b>pending</b>: initial state</li>
@@ -424,20 +444,20 @@ var promise = new Promise(function(resolve, reject) {
       <pre class="sticky"><code class="javascript" data-trim>
 function ajax (url) {
   return new Promise(function (resolve, reject) {
-    var req = new XMLHttpRequest()
-    req.open('GET', url)
-    req.onload = function () {
-      if (req.status === 200) {
-        resolve(req.response)
+    const request = new XMLHttpRequest()
+    request.open('GET', url)
+    request.onload = function () {
+      if (request.status === 200) {
+        resolve(request.response)
       } else {
-        reject(Error(req.statusText))
+        reject(Error(request.statusText))
       }
     }
 
-    req.onerror = function () {
+    request.onerror = function () {
       reject(Error('Network Error'))
     }
-    req.send()
+    request.send()
   })
 }
       </code></pre>
@@ -496,6 +516,7 @@ storage.getAvatar('maxpou').then(…)
   <section>
     <section>
       <h2>Others ES2015+ features</h2>
+      <img src="img/cool-goat.jpg" style="border:0px;">
     </section>
     <section>
       <h2>Template</h2>
