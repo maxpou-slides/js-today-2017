@@ -132,7 +132,7 @@ console.log(hero) // Object {name: "Daredevil"}
       <pre><code class="javascript" data-trim>
 var x = 1
 if (true) {
-  var x = 2  // same variable
+  var x = 2  // same variable as above
   console.log(x)  // 2
 }
 console.log(x)  // 2
@@ -235,10 +235,124 @@ const fruitsUpperCase = fruit.map(f => f.toUpperCase())
       </code></pre>
     </section>
   </section>
+    <section>
+      <section>
+        <h2>scope and <code>this</code></h2>
+        <img src="img/this.png" style="border:none;">
+      </section>
+      <section>
+        <h2>Default value: the global object</h2>
+        <pre><code class="javascript" data-trim>
+// in a Browsers
+this === window
+
+// in Node
+this === global
+        </code></pre>
+        <p>or <code>undefined</code> in strict mode</p>
+      </section>
+      <section>
+        <h2>Values of this</h2>
+        <pre><code class="javascript" data-trim>
+function isWindow () {
+  return this === window 
+}
+isWindow() // true
+        </code></pre>
+        <pre><code class="javascript" data-trim>
+var Hero = {
+  name: 'The Punisher',
+  isHero: function () {
+    return this === Hero
+  }
+}
+Hero.isHero() // true
+        </code></pre>
+      </section>
+      <section>
+        <h2><code>this</code> depends on the context</h2>
+          <pre><code class="javascript" data-trim>
+var Hero = {
+  name: 'The Punisher',
+  describe: function () {
+    return 'Im '+ this.name
+  }
+}
+var name = 'bob'
+var punisher = Hero.describe
+punisher() // Im bob
+          </code></pre>
+      </section>
+      <section>
+        <h2>Pitfall: <code>this</code> in an inner function</h2>
+        <pre><code class="javascript" data-trim>
+var numbers = {  
+   numberA: 5,
+   numberB: 10,
+   sum: function () {
+     console.log(this) // which context?
+     function calculate () {
+       console.log(this) // which context?
+       return this.numberA + this.numberB
+     }
+     return calculate()
+   }
+}
+numbers.sum() // result?
+        </code></pre>
+        </aside>
+      </section>
+      <section>
+        <h2>a solution: Function.prototype.call()</h2>
+        <p class="fragment">Yes, functions have methods in JS</p>
+        <pre><code class="fragment javascript" data-trim data-noescape>
+var numbers = {  
+   numberA: 5,
+   numberB: 10,
+   sum: function () {
+     console.log(this === numbers) // true
+     function calculate() {
+       console.log(this === numbers) // true
+       return this.numberA + this.numberB
+     }
+     return <mark>calculate.call(this)</mark>
+   }
+}
+numbers.sum()
+        </code></pre>
+        <p class="fragment">See also: Function.prototype.apply()</p>
+
+        <aside class="notes">
+          <pre><code class="javascript" data-trim>
+// > numbers
+// > window
+// > window
+
+// other way: arrow functions!
+var numbers = {
+   numberA: 5,
+   numberB: 10,
+   sum: function () {
+     console.log(this)
+     const calculate = () => {
+       console.log(this)
+       return this.numberA + this.numberB
+     }
+     return calculate()
+   }
+}
+numbers.sum()
+          </code></pre>
+      </section>
+    </section>
   <section>
     <section>
-      <h2>classical / prototypal inheritance</h2>
-      <ul class="fragment">
+      <h2>classical vs prototypal inheritance</h2>
+      <img src="img/family_tree.jpg" style="border:none;">
+    </section>
+    <section>
+      <h2>In a nutshell</h2>
+      <ul>
         <li>A class is a blueprint</li>
         <li>A prototype is an object instance.</li>
       </ul>
@@ -537,6 +651,18 @@ const html = `
   <span class="family">${hero.family}</span>
 `
       </code></pre>
+
+      <aside class="notes">
+        <pre><code class="javascript" data-trim>
+const html = `
+  <ul class="heroes">
+      ${heroes.map(hero => `<li>${hero.name}</li>`)}
+  </ul>
+`
+
+console.log(markup)
+        </code></pre>
+      </aside>
     </section>
     <section>
       <h2>Default parameters</h2>
@@ -660,6 +786,7 @@ const formatedHighRatedProperties = properties
   .map(p => p.name + ', ' + p.city)
       </code></pre>
       <p>Be declarative <i class="fa fa-heart" aria-hidden="true"></i></p>
+      <img class="fragment" src="img/for-loop.jpg" style="border:none; width:45%;">
     </section>
     <section>
       <h2>Cheat sheet</h2>
@@ -746,8 +873,9 @@ const formatedHighRatedProperties = properties
       <h2>Reading</h2>
       <ul>
         <li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/A_re-introduction_to_JavaScript">A re-introduction to JavaScript (MDN)</a></li>
-        <li><a href="https://medium.com/@cscalfani/so-you-want-to-be-a-functional-programmer-part-1-1f15e387e536">So You Want to be a Functional Programmer</a></li>
+        <li><a href="https://medium.com/@cscalfani/so-you-want-to-be-a-functional-programmer-part-1-1f15e387e536">So You Want to be a Functional Programmer (C. Scalfani)</a></li>
         <li><a href="http://www.maxpou.fr/no-more-loop-in-js/">No more for/while loop in JavaScript (by me 😉)</a></li>
+        <li><a href="https://github.com/getify/You-Dont-Know-JS">You Don't Know JS (book series) by Kyle Simpson</a></li>
       </ul>
     </section>
     <section>
