@@ -111,8 +111,20 @@ document.getElementsByTagName( 'head' )[0].appendChild( link );
     </section>
     <section>
       <h2>var, let and const</h2>
-      <img src="img/varletconst.jpg" style="width: 60%;border: none;">
-      <p>By <a href="https://twitter.com/kosamari">@kosamari</a></p>
+      <table>
+        <tr>
+          <td></td><td>assign variable to identifier</td><td>reassign variable</td><td>reassign identifier</td>
+        </tr>
+        <tr>
+          <td>var</td><td> <i class="fa fa-check green" aria-hidden="true"></i> </td><td> <i class="fa fa-check green" aria-hidden="true"></i> </td><td> <i class="fa fa-check green" aria-hidden="true"></i> </td>
+        </tr>
+        <tr>
+          <td>let</td><td> <i class="fa fa-check green" aria-hidden="true"></i> </td><td> <i class="fa fa-check green" aria-hidden="true"></i> </td><td> <i class="fa fa-times red" aria-hidden="true"></i> </td>
+        </tr>
+        <tr>
+          <td>const</td><td> <i class="fa fa-check green" aria-hidden="true"></i> </td><td> <i class="fa fa-times red" aria-hidden="true"></i> </td><td> <i class="fa fa-times red" aria-hidden="true"></i> </td>
+        </tr>
+      </table>
     </section>
     <section>
       <h2><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> const !== immutable <i class="fa fa-exclamation-triangle" aria-hidden="true"></i></h2>

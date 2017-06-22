@@ -75,3 +75,15 @@ h2.top-2 {
 h2.top-3  {
   margin-top: 20%;
 }
+
+i.fa.fa-check.green {
+  color: green;
+}
+
+i.fa.fa-times.red {
+  color: red;
+}
+
+td {
+  text-align: center !important;
+}
