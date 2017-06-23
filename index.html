@@ -49,11 +49,6 @@ document.getElementsByTagName( 'head' )[0].appendChild( link );
     <section>
       <h2>Reminder</h2>
     </section>
-    <section>
-      <h2>Synchronous vs Asynchronous</h2>
-      <img src="img/sync-vs-async.png" style="padding: 10px; background: white;">
-      <p class="fragment">JavaScript is Asynchronous</p>
-    </section>
     <!--<section>-->
       <!--<h2>Concurency vs Parallel</h2>
       <img src="img/con-vs-par.jpg" style="padding: 10px; background: white;">
@@ -71,7 +66,6 @@ document.getElementsByTagName( 'head' )[0].appendChild( link );
         <li>Array</li>
         <li>null</li>
         <li>undefined</li>
-        <li>Symbol (new in ES2015)</li>
       </ul>
     </section>
     <section>
@@ -100,12 +94,6 @@ document.getElementsByTagName( 'head' )[0].appendChild( link );
   </section>
   <section>
     <section>
-      <h2>ECMAScript 2015 (and beyond)</h2>
-      <img src="img/es2015.jpg" style="border: none;">
-    </section>
-  </section>
-  <section>
-    <section>
       <h2>Assigning a variable</h2>
       <img src="img/icecream.gif" style="border: none;">
     </section>
@@ -115,13 +103,13 @@ document.getElementsByTagName( 'head' )[0].appendChild( link );
         <tr>
           <td></td><td>assign variable to identifier</td><td>reassign variable</td><td>reassign identifier</td>
         </tr>
-        <tr>
+        <tr class="fragment">
           <td>var</td><td> <i class="fa fa-check green" aria-hidden="true"></i> </td><td> <i class="fa fa-check green" aria-hidden="true"></i> </td><td> <i class="fa fa-check green" aria-hidden="true"></i> </td>
         </tr>
-        <tr>
+        <tr class="fragment">
           <td>let</td><td> <i class="fa fa-check green" aria-hidden="true"></i> </td><td> <i class="fa fa-check green" aria-hidden="true"></i> </td><td> <i class="fa fa-times red" aria-hidden="true"></i> </td>
         </tr>
-        <tr>
+        <tr class="fragment">
           <td>const</td><td> <i class="fa fa-check green" aria-hidden="true"></i> </td><td> <i class="fa fa-times red" aria-hidden="true"></i> </td><td> <i class="fa fa-times red" aria-hidden="true"></i> </td>
         </tr>
       </table>
@@ -163,6 +151,7 @@ console.log(x)  // 1
   <section>
     <section>
       <h2>Function</h2>
+      <img src="https://twistedsifter.files.wordpress.com/2014/01/how-chain-link-is-made-gif.gif?w=500&h=256" style="border: none;">
     </section>
     <section>
       <h2>First class citizen</h2>
@@ -222,7 +211,7 @@ function (a, b) {
 
 (a, b) => a + b
       </code></pre>
-      <p class="fragment">Doesn't redefine: <code class="javascript" data-trim>this</code>, <code class="javascript" data-trim>arguments</code>, <code class="javascript" data-trim>super</code> and <code class="javascript" data-trim>new.target</code></p>
+      <p class="fragment">Doesn't redefine: <span class="fragment"><code class="javascript" data-trim>this</code>, <code class="javascript" data-trim>arguments</code>, <code class="javascript" data-trim>super</code> and <code class="javascript" data-trim>new.target</code></span></p>
       <p class="fragment">Bye bye "<code class="javascript" data-trim>var self = this</code>"!</p>
     </section>
     <section>
@@ -266,12 +255,14 @@ this === global
       <section>
         <h2>Values of this</h2>
         <pre><code class="javascript" data-trim>
+// inside function
 function isWindow () {
   return this === window 
 }
 isWindow() // true
         </code></pre>
-        <pre><code class="javascript" data-trim>
+        <pre class="fragment"><code class="javascript" data-trim>
+// inside object
 var Hero = {
   name: 'The Punisher',
   isHero: function () {
@@ -486,7 +477,11 @@ Hero.prototype.describe = function () {
       </div>
     </section>
     <section>
-      <h2>Because JS is Asynchronous</h2>
+      <h2>Synchronous vs Asynchronous</h2>
+      <img src="img/sync-vs-async.png" style="padding: 10px; background: white;">
+    </section>
+    <section>
+      <h2>JS is Asynchronous</h2>
       <pre><code class="javascript" data-trim>
 function ajaxBurgers (url, callback) {
   const fakeDelay = Math.random() * 1500
@@ -641,7 +636,7 @@ storage.getAvatar('maxpou').then(…)
   </section>
   <section>
     <section>
-      <h2>Others ES2015+ features</h2>
+      <h2>Others cool ES2015+ features</h2>
       <img src="img/cool-goat.jpg" style="border:0px;">
     </section>
     <section>
@@ -813,7 +808,7 @@ const formatedHighRatedProperties = properties
     <section>
       <h2>JavaScript Dev Tools</h2>
       <h3>(That Put Other Dev Tools to Shame)</h3>
-      <img src="https://twistedsifter.files.wordpress.com/2014/01/how-chain-link-is-made-gif.gif?w=500&h=256" style="border: none;">
+      <img src="img/margaret-hamilton.png" style="border: none;">
     </section>
     <section>
       <h2>Browsers Support</h2>
@@ -869,7 +864,7 @@ const formatedHighRatedProperties = properties
   return n + 1;
 });
       </code></pre>
-      <p class="fragment">Don't forget the <a href="https://github.com/babel/babel-preset-env">babel-preset-env</a></p>
+      <p class="fragment">Don't forget the <a href="https://github.com/babel/babel-preset-env">babel-preset-env</a> <i class="fa fa-heart red" aria-hidden="true"></i></p>
     </section>
     <section>
       <h2>Webpack (+hot module replacement)</h2>
